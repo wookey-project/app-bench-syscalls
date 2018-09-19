@@ -39,23 +39,13 @@ SRC = $(wildcard $(CSRC_DIR)/*.c)
 OBJ = $(patsubst %.c,$(APP_BUILD_DIR)/%.o,$(SRC))
 DEP = $(OBJ:.o=.d)
 
-#Rust sources files
-RSSRC_DIR=rust/src
-RSRC= $(wildcard $(RSRCDIR)/*.rs)
-ROBJ = $(patsubst %.rs,$(APP_BUILD_DIR)/rust/%.o,$(RSRC))
-
-#ada sources files
-ASRC_DIR = ada/src
-ASRC= $(wildcard $(ASRC_DIR)/*.adb)
-AOBJ = $(patsubst %.adb,$(APP_BUILD_DIR)/ada/%.o,$(ASRC))
-
-OUT_DIRS = $(dir $(DRVOBJ)) $(dir $(BOARD_OBJ)) $(dir $(SOC_OBJ)) $(dir $(CORE_OBJ)) $(dir $(AOBJ)) $(dir $(OBJ)) $(dir $(ROBJ))
+OUT_DIRS = $(dir $(OBJ))
 
 LDSCRIPT_NAME = $(APP_BUILD_DIR)/$(APP_NAME).ld
 
 # file to (dist)clean
 # objects and compilation related
-TODEL_CLEAN += $(ROBJ) $(OBJ) $(SOC_OBJ) $(DRVOBJ) $(BOARD_OBJ) $(CORE_OBJ) $(DEP) $(TESTSDEP) $(SOC_DEP) $(DRVDEP) $(BOARD_DEP) $(CORE_DEP) $(LDSCRIPT_NAME)
+TODEL_CLEAN += $(OBJ) $(DEP) $(LDSCRIPT_NAME)
 # targets
 TODEL_DISTCLEAN += $(APP_BUILD_DIR)
 
@@ -72,7 +62,7 @@ $(APP_BUILD_DIR)/%.o: %.c
 	$(call if_changed,cc_o_c)
 
 # ELF
-$(APP_BUILD_DIR)/$(ELF_NAME): $(ROBJ) $(OBJ) $(SOBJ) $(DRVOBJ) $(BOARD_OBJ) $(CORE_OBJ) $(SOC_OBJ) $(BUILD_DIR)/libs/libstd/libstd.a $(BUILD_DIR)/drivers/libusart/libusart.a $(BUILD_DIR)/libs/libconsole/libconsole.a
+$(APP_BUILD_DIR)/$(ELF_NAME): $(OBJ)
 	$(call if_changed,link_o_target)
 
 # HEX
