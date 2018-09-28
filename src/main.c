@@ -136,11 +136,25 @@ int _main(uint32_t task_id)
     printf("----------------------------------\n");
 
     for (uint8_t i = 0; i < 10; ++i) {
-      sys_get_systick(&(val[i]), PREC_CYCLE);
+      ret = sys_get_systick(&(val[i]), PREC_MILLI);
+      if (ret != SYS_E_DONE) {
+         printf("gettick milli failed!\n");
+      }
     }
     for (uint8_t i = 0; i < 10; ++i) {
-      printf("tick: %x\n", (uint32_t)val[i]);
+      printf("milli: %d\n", (uint32_t)val[i]);
     }
+    for (uint8_t i = 0; i < 10; ++i) {
+      ret = sys_get_systick(&(val[i]), PREC_MICRO);
+      if (ret != SYS_E_DONE) {
+         printf("gettick micro failed!\n");
+      }
+    }
+    for (uint8_t i = 0; i < 10; ++i) {
+      printf("micro: %d\n", (uint32_t)val[i]);
+    }
+
+
     uint32_t max_tickdiff = (uint32_t)val[1] - (uint32_t)val[0];
     uint32_t min_tickdiff = (uint32_t)val[1] - (uint32_t)val[0];
     uint64_t avg_tickdiff = (uint32_t)val[1] - (uint32_t)val[0];
@@ -155,9 +169,9 @@ int _main(uint32_t task_id)
     }
     avg_tickdiff /= 9;
     printf("-----------\n");
-    printf("max tickdiff: %x (%d) cycles\n", max_tickdiff, max_tickdiff);
-    printf("min tickdiff: %x (%d) cycles\n", min_tickdiff, min_tickdiff);
-    printf("avg tickdiff: %x (%d) cycles\n", (uint32_t)avg_tickdiff, (uint32_t)avg_tickdiff);
+    printf("max tickdiff: %x (%d) microsecs\n", max_tickdiff, max_tickdiff);
+    printf("min tickdiff: %x (%d) microsecs\n", min_tickdiff, min_tickdiff);
+    printf("avg tickdiff: %x (%d) microsecs\n", (uint32_t)avg_tickdiff, (uint32_t)avg_tickdiff);
 
 
 
