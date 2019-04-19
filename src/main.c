@@ -4,9 +4,10 @@
  * \brief Main of dummy
  *
  */
-#include "api/types.h"
-#include "api/syscall.h"
-#include "api/print.h"
+#include "libc/types.h"
+#include "libc/syscall.h"
+#include "libc/stdio.h"
+#include "libc/string.h"
 
 #define PERIPH_BASE                         ((uint32_t) 0x40000000)
 #define APB1PERIPH_BASE       PERIPH_BASE
@@ -180,7 +181,7 @@ int _main(uint32_t task_id)
     printf("----------------------------------\n");
 
     uint32_t sleep_tab[] = { 200, 20, 3000, 50, 250, 100, 800, 400, 10, 70 };
-    
+
     for (uint8_t i = 0; i < 10; ++i) {
       sys_get_systick(&ts[0], PREC_MICRO);
       sys_sleep(sleep_tab[i], SLEEP_MODE_DEEP);
