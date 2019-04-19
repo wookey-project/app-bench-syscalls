@@ -1,5 +1,5 @@
 ###################################################################
-# About the application name and path
+# about the application name and path
 ###################################################################
 
 APP_NAME ?= svctest
